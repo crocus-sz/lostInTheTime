@@ -28,7 +28,7 @@ void Game::render() {
     this->renderBackground();
     this->renderHero();
     this->updateView(main_hero->getHeroPositionX(), main_hero->getHeroPositionY());
-    std::cout << main_hero->getHeroPositionX() << std::endl;
+    std::cout << main_hero->getHeroPositionY() << std::endl;
     this->window->display();
 }
 
@@ -53,7 +53,7 @@ void Game::updateView(float x, float y) {
     else {
         position.x = (WIDTH / 2);
     }
-    position.y = y;
+    position.y = y-80;
     hero_view.setCenter(position);
 }
 

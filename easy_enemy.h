@@ -20,6 +20,8 @@ class Enemy {
         ~Enemy();
         void initAnimations();
         void updateAnimations();
+        void renderEnemy();
+        void destroyEnemy();
 };
 
 #endif

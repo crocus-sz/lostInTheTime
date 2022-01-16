@@ -67,6 +67,8 @@ void Hero::initPhysics() {
     this->minVelocity = 1.f;
     this->acceleration = 3.f;
     this->drag = 0.50f;
+    this->gravity = 2;
+    this->maxGravitySpeed = 6.f;
 }
 void Hero::moving(const float dir_x, const float dir_y) {
     // Acceleration
@@ -91,6 +93,12 @@ void Hero::updatePhysics() {
         this->velocity.y = 0.f;
     }
     this->main_hero_sprite.move(this->velocity);
+
+    //Gravity
+    this->velocity.y += 1.0 * this->gravity;
+    if(std::abs(this->velocity.y) > this->maxGravitySpeed) {
+        this->velocity.y = this->maxGravitySpeed * ((this->velocity.y) ? -1.f : 1.f);
+    }
 }
 
 
@@ -137,12 +145,14 @@ void Hero::updateAnimations() {
 
         }
     }    
-    // check collision with window
-    if(this->getHeroPositionX() < -50.f) {
-        this->main_hero_sprite.setPosition(-50.f, this->getHeroPositionY());
-    }
-    else if(this->getHeroPositionX() >  8400.f) {
-        this->main_hero_sprite.setPosition(8400.f, this->getHeroPositionY());
+    // check the collision with window
+    if(this->getHeroPositionY()> 380.f) { 
+        if(this->getHeroPositionX() < -50.f)
+            this->main_hero_sprite.setPosition(-50.f, 380.f);
+        else if(this->getHeroPositionX() > 8400.f)
+            this->main_hero_sprite.setPosition(8400.f, 380.f);
+        else
+            this->main_hero_sprite.setPosition(this->getHeroPositionX(), 380.f);
     }
 }
 

@@ -45,6 +45,8 @@ class Hero {
         float drag;
         float maxVelocity;
         float minVelocity;
+        float gravity;
+        float maxGravitySpeed;
         sf::Vector2f velocity;
         void initPhysics();
         void updatePhysics();
