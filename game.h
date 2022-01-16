@@ -5,6 +5,7 @@
 
 
 #include "main_hero.h"
+#include "artefact.h"
 #include "all_incl.h"
 
 
@@ -26,7 +27,10 @@ class Game {
         
         void init_window();
         void initPlayer();
+        void initArtefact();
         Hero *main_hero;
+        Artefact *artefact;
+
 
     public:
         Game();
@@ -36,11 +40,16 @@ class Game {
         void render();
         void updateHero();
         void renderHero();
+        void updateArtefact();
+        void renderArtefact();
 
         const bool isRunning();
         void initView();
         sf::View returnView();
         void moveView(float x, float y);
         void updateView(float x, float y);
+
+
+        void collisionHeroWithArtefact();
 };
 #endif 
