@@ -30,12 +30,9 @@ void Game::render() {
     this->renderBackground();
     this->renderHero();
     if(!artefact->isDestroyedFunc()) {
-//        std::cout << artefact->isDestroyedFunc() << std::endl;
        this->renderArtefact();
     }
     this->updateView(main_hero->getHeroPositionX(), main_hero->getHeroPositionY());
-    std::cout << "hero = "<< main_hero->getHeroPositionX() << std::endl;
-    std::cout << "wuffle = "<< artefact->getArtefactPositionX() << std::endl;
     this->window->display();
 }
 
@@ -49,7 +46,7 @@ void Game::init_window() {
 
 }
 void Game::initView() {
-    hero_view.reset(sf::FloatRect(-1000, -400, WIDTH, HEIGHT));
+    hero_view.reset(sf::FloatRect(0, 0, WIDTH, HEIGHT));
 }
 
 void Game::updateView(float x, float y) {
@@ -104,15 +101,15 @@ void Game::renderBackground() {
 }
 
 void Game::initArtefact() {
-    artefact = new Artefact(200, main_hero->getHeroPositionY()+500, "Waffles", 5);
+    artefact = new Artefact(400, main_hero->getHeroPositionY()+500, "Waffles", 5);
 }
 
 void Game::renderArtefact() {
     artefact->render(*window);
+    this->collisionHeroWithArtefact();
 }
 void Game::collisionHeroWithArtefact() {
-    if(main_hero->getHeroPositionX() == artefact->getArtefactPositionX()) {
-        std::cout << "Hello" << std::endl;
+    if(artefact->getArtefactPositionX() - main_hero->getHeroPositionX() < 120) { 
         artefact->destroyArtefact();
     }
 }

@@ -34,7 +34,7 @@ void Hero::setHeroSprite() {
         std::cout << "COUDLN'T LOAD PLAYER SHEET!" << "\n";
     }
 
-    this->main_hero_sprite.setPosition(25.f, 340.f);
+    this->main_hero_sprite.setPosition(20.f, 340.f);
     this->main_hero_sprite.setTexture(this->main_hero_texture);
     this->main_hero_sprite.setTextureRect(this->currentFrame);
     this->main_hero_sprite.setScale(4.5f, 4.5f);
