@@ -1,1 +1,1 @@
-![alt tag](game_sprite/logo.png "Lost in the time!")
+![alt text](game_sprite/logo.png "Lost in the time!")
