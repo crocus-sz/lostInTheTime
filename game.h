@@ -9,6 +9,7 @@
 #include "all_incl.h"
 
 
+
 class Game {
     private:
         sf::RenderWindow *window;
@@ -16,21 +17,30 @@ class Game {
         sf::VideoMode videoMode;
         sf::Vector2u texture_size;
         sf::View hero_view;
+        int counter_hero;
+        sf::Text counter_text;
+        sf::Font font;
+
 
 
         //Background
-        sf::Texture background_texture1, background_texture2, background_texture3;
-        sf::Sprite background_sprite1, background_sprite2, background_sprite3;
+        sf::Texture background_texture1, textbox_texture;
+        sf::Sprite background_sprite1, textbox_sprite;
         void initBackground();
+        void initTextBox();
+        void renderTextBox();
         void renderBackground();
         void repeatBackground();
         
         void init_window();
         void initPlayer();
-        void initArtefact();
+        void initAllArtefact();
+        void initStatusbar();
+        void initText();
         Hero *main_hero;
         Artefact *artefact;
-
+        Artefact *artefact1;
+        
 
     public:
         Game();
@@ -41,7 +51,13 @@ class Game {
         void updateHero();
         void renderHero();
         void updateArtefact();
-        void renderArtefact();
+        void renderOneArtefact(Artefact &artefact_num);
+        void updateStatusBar();
+        void renderStatusbar();
+        void renderText();
+        void updateText(int new_count);
+
+        void updateCounter();
 
         const bool isRunning();
         void initView();
@@ -50,6 +66,6 @@ class Game {
         void updateView(float x, float y);
 
 
-        void collisionHeroWithArtefact();
+        void collisionHeroWithArtefact(Artefact &artefact_num);
 };
 #endif 

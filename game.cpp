@@ -2,6 +2,7 @@
 
 #include "game.h"
 #include <iostream>
+#include <string>
 
 #define WIDTH 900
 #define HEIGHT 600
@@ -10,13 +11,16 @@ Game::Game() {
     this->init_window();
     this->initPlayer();
     this->initBackground();
-    this->initArtefact();
+    this->initAllArtefact();
+    //this->initTextBox();
+    this->initText();
 }
 
 Game::~Game() {
     delete this->window;
     delete this->main_hero;
     delete this->artefact;
+    delete this->artefact1;
 }
 
 
@@ -29,10 +33,15 @@ void Game::render() {
     this->window->clear();
     this->renderBackground();
     this->renderHero();
+    this->renderText();
     if(!artefact->isDestroyedFunc()) {
-       this->renderArtefact();
+        this->renderOneArtefact(*artefact);
+    }
+    if(!artefact1->isDestroyedFunc()) {
+        this->renderOneArtefact(*artefact1);
     }
     this->updateView(main_hero->getHeroPositionX(), main_hero->getHeroPositionY());
+    //this->renderTextBox();
     this->window->display();
 }
 
@@ -80,6 +89,7 @@ void Game::updateHero() {
 
 void Game::initPlayer() {
     this->main_hero = new Hero();
+    this->counter_hero = 0;
 }
 
 void Game::renderHero() {
@@ -100,16 +110,56 @@ void Game::renderBackground() {
     window->draw(background_sprite1);
 }
 
-void Game::initArtefact() {
+void Game::initAllArtefact() {
     artefact = new Artefact(400, main_hero->getHeroPositionY()+500, "Waffles", 5);
+    artefact1 = new Artefact(700, main_hero->getHeroPositionY()+500, "Shrimp", 5);
 }
 
-void Game::renderArtefact() {
-    artefact->render(*window);
-    this->collisionHeroWithArtefact();
+void Game::renderOneArtefact(Artefact &artefact_num) {
+    artefact_num.render(*window);
+    this->collisionHeroWithArtefact(artefact_num);
 }
-void Game::collisionHeroWithArtefact() {
-    if(artefact->getArtefactPositionX() - main_hero->getHeroPositionX() < 120) { 
-        artefact->destroyArtefact();
+void Game::collisionHeroWithArtefact(Artefact &artefact_num) {
+    if(artefact_num.getArtefactPositionX() - main_hero->getHeroPositionX() < 120) { 
+        artefact_num.destroyArtefact();
+        this->updateCounter();
     }
+}
+
+void Game::initTextBox() {
+    if(!this->textbox_texture.loadFromFile("/home/crocus/game_project/game_sprites/another_stuff/ramka_10_prod_jedz.png")) {
+        std::cout << "ERROR! COULDN'T LOAD A BACKGROUND" << std::endl;
+    }
+    else {
+        this->textbox_sprite.setTexture(textbox_texture);
+        this->textbox_sprite.setScale(0.4f, 0.3f);
+    
+    }
+}
+void Game::renderTextBox() {
+    window->draw(textbox_sprite);
+}
+
+void Game::updateCounter() {
+    this->counter_hero += 1;
+    this->updateText(counter_hero);
+}
+
+void Game::initText() {
+    if(!font.loadFromFile("/home/crocus/game_project/game_sprites/another_stuff/PressStart2P-Regular.ttf")) {
+        std::cout << "COUDLNT NOT LOAD A FONT!" << std::endl;
+    }
+    counter_text.setFont(font);
+    counter_text.setCharacterSize(24);
+
+    std::string counter_string = std::to_string (counter_hero);
+    counter_text.setString(counter_string);
+    
+}
+void Game::renderText() {
+    window->draw(counter_text);
+}
+void Game::updateText(int new_count) {
+    std::string counter_string = std::to_string (new_count);
+    counter_text.setString(counter_string);
 }

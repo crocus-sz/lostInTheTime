@@ -53,7 +53,7 @@ bool Artefact::isDestroyedFunc() {
     return isDestroyed;
 }
 void Artefact::destroyArtefact() {
-    isDestroyed = true;
+    this->isDestroyed = true;
 }
 
 float Artefact::getArtefactPositionX() {
