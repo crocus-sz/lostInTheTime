@@ -20,6 +20,7 @@ class Game {
         int counter_hero;
         sf::Text counter_text;
         sf::Font font;
+        bool isTaskBoxVisible;
 
 
 
@@ -29,6 +30,9 @@ class Game {
         void initBackground();
         void initTextBox();
         void renderTextBox();
+        void moveTextBox(sf::Vector2f position);
+        void showTask();
+        void closeTask();
         void renderBackground();
         void repeatBackground();
         
@@ -56,6 +60,7 @@ class Game {
         void renderStatusbar();
         void renderText();
         void updateText(int new_count);
+        void moveText(sf::Vector2f position);
 
         void updateCounter();
 

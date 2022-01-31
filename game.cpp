@@ -12,7 +12,7 @@ Game::Game() {
     this->initPlayer();
     this->initBackground();
     this->initAllArtefact();
-    //this->initTextBox();
+    this->initTextBox();
     this->initText();
 }
 
@@ -41,7 +41,9 @@ void Game::render() {
         this->renderOneArtefact(*artefact1);
     }
     this->updateView(main_hero->getHeroPositionX(), main_hero->getHeroPositionY());
-    //this->renderTextBox();
+    if(this->isTaskBoxVisible) {
+        this->renderTextBox();
+    }
     this->window->display();
 }
 
@@ -68,6 +70,8 @@ void Game::updateView(float x, float y) {
     }
     position.y = y-80;
     hero_view.setCenter(position);
+    this->moveText(position);
+    this->moveTextBox(position);
 }
 
 const bool Game::isRunning() {
@@ -81,6 +85,8 @@ void Game::update() {
                 window->close();
         }
       this->updateHero();
+      this->showTask();
+      this->closeTask();
 }
 
 void Game::updateHero() {
@@ -111,8 +117,8 @@ void Game::renderBackground() {
 }
 
 void Game::initAllArtefact() {
-    artefact = new Artefact(400, main_hero->getHeroPositionY()+500, "Waffles", 5);
-    artefact1 = new Artefact(700, main_hero->getHeroPositionY()+500, "Shrimp", 5);
+    artefact = new Artefact(1100, main_hero->getHeroPositionY()+500, "Waffles", 5);
+    artefact1 = new Artefact(1700, main_hero->getHeroPositionY()+500, "Shrimp", 5);
 }
 
 void Game::renderOneArtefact(Artefact &artefact_num) {
@@ -127,12 +133,13 @@ void Game::collisionHeroWithArtefact(Artefact &artefact_num) {
 }
 
 void Game::initTextBox() {
-    if(!this->textbox_texture.loadFromFile("/home/crocus/game_project/game_sprites/another_stuff/ramka_10_prod_jedz.png")) {
+    isTaskBoxVisible = false;
+    if(!this->textbox_texture.loadFromFile("/home/crocus/game_project/game_sprites/another_stuff/robot_border_10_artefacts.png")) {
         std::cout << "ERROR! COULDN'T LOAD A BACKGROUND" << std::endl;
     }
     else {
         this->textbox_sprite.setTexture(textbox_texture);
-        this->textbox_sprite.setScale(0.4f, 0.3f);
+        this->textbox_sprite.setScale(0.8f, 0.8f);
     
     }
 }
@@ -150,10 +157,10 @@ void Game::initText() {
         std::cout << "COUDLNT NOT LOAD A FONT!" << std::endl;
     }
     counter_text.setFont(font);
-    counter_text.setCharacterSize(24);
+    counter_text.setCharacterSize(15);
 
     std::string counter_string = std::to_string (counter_hero);
-    counter_text.setString(counter_string);
+    counter_text.setString("artefacts: " + counter_string);
     
 }
 void Game::renderText() {
@@ -161,5 +168,26 @@ void Game::renderText() {
 }
 void Game::updateText(int new_count) {
     std::string counter_string = std::to_string (new_count);
-    counter_text.setString(counter_string);
+    counter_text.setString("artefacts: " + counter_string);
+}
+void Game::moveText(sf::Vector2f position) {
+    position.x -= 440;
+    position.y -= 290;
+    counter_text.setPosition(position);
+}
+void Game::showTask() {
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::T)) {
+        isTaskBoxVisible = true;
+    }
+}
+void Game::closeTask() {
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R)) {
+        isTaskBoxVisible = false;
+    }
+}
+void Game::moveTextBox(sf::Vector2f position) {
+    position.x -= 200;
+    position.y -= 200;
+    textbox_sprite.setPosition(position);
+
 }
