@@ -22,12 +22,15 @@ class Game {
         sf::Font font;
         bool isTaskBoxVisible;
         bool isCompleteTaskBoxVisible;
+        bool isStorylineBoxVisible;
+        sf::IntRect WizardFrame;
+        sf::Clock wizardAnimTimer;
 
 
 
         //Background
-        sf::Texture background_texture1, textbox_texture, complete_task_texture;
-        sf::Sprite background_sprite1, textbox_sprite, complete_task_sprite;
+        sf::Texture background_texture1, textbox_texture, complete_task_texture, wizard1_texture, storylinebox_texture;
+        sf::Sprite background_sprite1, textbox_sprite, complete_task_sprite, wizard1_sprite, storylinebox_sprite;
         void initBackground();
         void initTextBox();
         void renderTextBox();
@@ -36,8 +39,14 @@ class Game {
         void showTask();
         void closeTask();
         void initTextBoxCompleteTask();
+        void initTextBoxStoryline();
+        void renderTextBoxStoryline();
+        void updateTextBoxStoryline();
+        void moveTextBoxStoryline();
+        void showTextBoxStoryline();
         void renderTextBoxCompleteTask();
         void moveTextBoxCompleteTask(sf::Vector2f position);
+        
         void renderBackground();
         void repeatBackground();
         
@@ -46,6 +55,8 @@ class Game {
         void initAllArtefact();
         void initStatusbar();
         void initText();
+        void initWizard();
+        void updateWizardAnim();
         Hero *main_hero;
         Artefact *artefact;
         Artefact *artefact1;
@@ -67,6 +78,7 @@ class Game {
         void render();
         void updateHero();
         void renderHero();
+        void renderWizard();
         void updateArtefact();
         void renderOneArtefact(Artefact &artefact_num);
         void updateStatusBar();

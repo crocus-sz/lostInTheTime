@@ -14,7 +14,9 @@ Game::Game() {
     this->initAllArtefact();
     this->initTextBox();
     this->initTextBoxCompleteTask();
+    this->initTextBoxStoryline();
     this->initText();
+    this->initWizard();
 }
 
 Game::~Game() {
@@ -34,7 +36,11 @@ void Game::render() {
     this->window->clear();
     this->renderBackground();
     this->renderHero();
+    this->renderWizard();
     this->renderText();
+    if(this->isStorylineBoxVisible) {
+        this->renderTextBoxStoryline();
+    }
     if(!artefact->isDestroyedFunc()) {
         this->renderOneArtefact(*artefact);
     }
@@ -116,6 +122,8 @@ void Game::update() {
       this->updateHero();
       this->showTask();
       this->closeTask();
+      this->updateWizardAnim();
+      this->updateTextBoxStoryline();
 }
 
 void Game::updateHero() {
@@ -256,5 +264,67 @@ void Game::updateTextBox() {
         this->textbox_texture.loadFromFile("/home/crocus/game_project/game_sprites/another_stuff/robot_border_gohome.png");
         this->textbox_sprite.setTexture(textbox_texture);
         isCompleteTaskBoxVisible = true;
+    }
+}
+void Game::initTextBoxStoryline() {
+    isStorylineBoxVisible = false;
+    if(!this->storylinebox_texture.loadFromFile("/home/crocus/game_project/game_sprites/another_stuff/storyline_border_school.png")) {
+        std::cout << "ERROR! COULDN'T LOAD A COMPLETE TASK TEXTURE" << std::endl;
+    }
+    else {
+        this->storylinebox_sprite.setTexture(storylinebox_texture);
+        this->storylinebox_sprite.setPosition(main_hero->getHeroPositionX()+300, main_hero->getHeroPositionY() + 100);
+        this->storylinebox_sprite.setScale(0.5f, 0.5f);
+    
+    }
+}
+void Game::updateTextBoxStoryline() {
+    if(main_hero->getHeroPositionX() >= 300 && main_hero->getHeroPositionX()<= 310) {
+        isStorylineBoxVisible = true;
+    }
+    else if(main_hero->getHeroPositionX() >= 400 && main_hero->getHeroPositionX()<= 410) {
+        storylinebox_texture.loadFromFile("/home/crocus/game_project/game_sprites/another_stuff/storyline_border_task.png");
+        storylinebox_sprite.setTexture(storylinebox_texture);
+        isStorylineBoxVisible = true;
+    }
+    
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R)) {
+        isStorylineBoxVisible = false;
+        
+    
+    }
+}
+void Game::renderTextBoxStoryline() {
+    window->draw(storylinebox_sprite);
+}
+void Game::showTextBoxStoryline() {
+}
+
+void Game::initWizard() {
+    this->wizardAnimTimer.restart();
+    if(!this->wizard1_texture.loadFromFile("/home/crocus/game_project/game_sprites/main_enemies/EVil Wizard 2/Sprites/Idle.png")) {
+        std::cout << "ERROR! COULDN'T LOAD AN EVIL WIZARD SPRITE" << std::endl;
+    }
+    else {
+        this->WizardFrame = sf::IntRect(0, 0, 250, 250);
+        this->wizard1_sprite.setTexture(wizard1_texture);
+        this->wizard1_sprite.setScale(3.0f, 3.0f);
+        this->wizard1_sprite.setTextureRect(this->WizardFrame);
+        this->wizard1_sprite.setPosition(7250.f, 80.f);
+    }
+
+}
+void Game::renderWizard() {
+    window->draw(wizard1_sprite);
+}
+void Game::updateWizardAnim(){
+    if(this->wizardAnimTimer.getElapsedTime().asSeconds() >= 0.1f) {
+        this->WizardFrame.top = 0.f;
+        this->WizardFrame.left += 250.f;
+        if(this->WizardFrame.left >= 1750.f){
+            this->WizardFrame.left = 250.f;
+        }
+        this->wizardAnimTimer.restart();
+        this->wizard1_sprite.setTextureRect(this->WizardFrame);
     }
 }
