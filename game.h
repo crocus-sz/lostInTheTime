@@ -21,18 +21,23 @@ class Game {
         sf::Text counter_text;
         sf::Font font;
         bool isTaskBoxVisible;
+        bool isCompleteTaskBoxVisible;
 
 
 
         //Background
-        sf::Texture background_texture1, textbox_texture;
-        sf::Sprite background_sprite1, textbox_sprite;
+        sf::Texture background_texture1, textbox_texture, complete_task_texture;
+        sf::Sprite background_sprite1, textbox_sprite, complete_task_sprite;
         void initBackground();
         void initTextBox();
         void renderTextBox();
         void moveTextBox(sf::Vector2f position);
+        void updateTextBox();
         void showTask();
         void closeTask();
+        void initTextBoxCompleteTask();
+        void renderTextBoxCompleteTask();
+        void moveTextBoxCompleteTask(sf::Vector2f position);
         void renderBackground();
         void repeatBackground();
         
@@ -44,6 +49,14 @@ class Game {
         Hero *main_hero;
         Artefact *artefact;
         Artefact *artefact1;
+        Artefact *artefact2;
+        Artefact *artefact3;
+        Artefact *artefact4;
+        Artefact *artefact5;
+        Artefact *artefact6;
+        Artefact *artefact7;
+        Artefact *artefact8;
+        Artefact *artefact9;
         
 
     public:

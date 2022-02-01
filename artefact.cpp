@@ -36,11 +36,38 @@ void Artefact::chooseAnimations() {
     if(artefact_name == "Waffles") {
         path_to_animation = "/home/crocus/game_project/game_sprites/another_stuff/Food/Waffles.png";
     }
-    else if(artefact_name == "Stein") {
-        path_to_animation = "/home/crocus/game_project/game_sprites/another_stuff/Food/Stein.png";
+    else if(artefact_name == "Tomato") {
+        path_to_animation = "/home/crocus/game_project/game_sprites/another_stuff/Food/Tomato.png";
     }
     else if(artefact_name == "Shrimp") {
         path_to_animation  = "/home/crocus/game_project/game_sprites/another_stuff/Food/Shrimp.png";
+    }
+    else if(artefact_name == "Sushi") {
+        path_to_animation  = "/home/crocus/game_project/game_sprites/another_stuff/Food/Sushi.png";
+    }
+    else if(artefact_name == "Sashimi") {
+        path_to_animation  = "/home/crocus/game_project/game_sprites/another_stuff/Food/Sashimi.png";
+    }
+    else if(artefact_name == "Sardines") {
+        path_to_animation  = "/home/crocus/game_project/game_sprites/another_stuff/Food/Sardines.png";
+    }
+    else if(artefact_name == "Pretzel") {
+        path_to_animation  = "/home/crocus/game_project/game_sprites/another_stuff/Food/Pretzel.png";
+    }
+    else if(artefact_name == "Pickle") {
+        path_to_animation  = "/home/crocus/game_project/game_sprites/another_stuff/Food/Pickle.png";
+    }
+    else if(artefact_name == "Peach") {
+        path_to_animation  = "/home/crocus/game_project/game_sprites/another_stuff/Food/Peach.png";
+    }
+    else if(artefact_name == "Onion") {
+        path_to_animation  = "/home/crocus/game_project/game_sprites/another_stuff/Food/Onion.png";
+    }
+    else if(artefact_name == "Olive") {
+        path_to_animation  = "/home/crocus/game_project/game_sprites/another_stuff/Food/Olive.png";
+    }
+    else if(artefact_name == "MelonWater") {
+        path_to_animation  = "/home/crocus/game_project/game_sprites/another_stuff/Food/Olive.png";
     }
 }
 

@@ -13,6 +13,7 @@ Game::Game() {
     this->initBackground();
     this->initAllArtefact();
     this->initTextBox();
+    this->initTextBoxCompleteTask();
     this->initText();
 }
 
@@ -40,9 +41,36 @@ void Game::render() {
     if(!artefact1->isDestroyedFunc()) {
         this->renderOneArtefact(*artefact1);
     }
+    if(!artefact2->isDestroyedFunc()) {
+        this->renderOneArtefact(*artefact2);
+    }
+    if(!artefact3->isDestroyedFunc()) {
+        this->renderOneArtefact(*artefact3);
+    }
+    if(!artefact4->isDestroyedFunc()) {
+        this->renderOneArtefact(*artefact4);
+    }
+    if(!artefact5->isDestroyedFunc()) {
+        this->renderOneArtefact(*artefact5);
+    }
+    if(!artefact6->isDestroyedFunc()) {
+        this->renderOneArtefact(*artefact6);
+    }
+    if(!artefact7->isDestroyedFunc()) {
+        this->renderOneArtefact(*artefact7);
+    }
+    if(!artefact8->isDestroyedFunc()) {
+        this->renderOneArtefact(*artefact8);
+    }
+    if(!artefact9->isDestroyedFunc()) {
+        this->renderOneArtefact(*artefact9);
+    }
     this->updateView(main_hero->getHeroPositionX(), main_hero->getHeroPositionY());
     if(this->isTaskBoxVisible) {
         this->renderTextBox();
+    }
+    if(this->isCompleteTaskBoxVisible) {
+        this->renderTextBoxCompleteTask();
     }
     this->window->display();
 }
@@ -72,6 +100,7 @@ void Game::updateView(float x, float y) {
     hero_view.setCenter(position);
     this->moveText(position);
     this->moveTextBox(position);
+    this->moveTextBoxCompleteTask(position);
 }
 
 const bool Game::isRunning() {
@@ -119,6 +148,14 @@ void Game::renderBackground() {
 void Game::initAllArtefact() {
     artefact = new Artefact(1100, main_hero->getHeroPositionY()+500, "Waffles", 5);
     artefact1 = new Artefact(1700, main_hero->getHeroPositionY()+500, "Shrimp", 5);
+    artefact2 = new Artefact(2300, main_hero->getHeroPositionY()+500, "Tomato", 5);
+    artefact3 = new Artefact(2700, main_hero->getHeroPositionY()+500, "Sashimi", 5);
+    artefact4 = new Artefact(3100, main_hero->getHeroPositionY()+500, "Sardines", 5);
+    artefact5 = new Artefact(3500, main_hero->getHeroPositionY()+500, "Pretzel", 5);
+    artefact6 = new Artefact(3900, main_hero->getHeroPositionY()+500, "Pickle", 5);
+    artefact7 = new Artefact(4500, main_hero->getHeroPositionY()+500, "Peach", 5);
+    artefact8 = new Artefact(4900, main_hero->getHeroPositionY()+500, "Onion", 5);
+    artefact9 = new Artefact(5500, main_hero->getHeroPositionY()+500, "Olive", 5);
 }
 
 void Game::renderOneArtefact(Artefact &artefact_num) {
@@ -150,6 +187,7 @@ void Game::renderTextBox() {
 void Game::updateCounter() {
     this->counter_hero += 1;
     this->updateText(counter_hero);
+    this->updateTextBox();
 }
 
 void Game::initText() {
@@ -183,6 +221,7 @@ void Game::showTask() {
 void Game::closeTask() {
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R)) {
         isTaskBoxVisible = false;
+        isCompleteTaskBoxVisible = false;
     }
 }
 void Game::moveTextBox(sf::Vector2f position) {
@@ -190,4 +229,32 @@ void Game::moveTextBox(sf::Vector2f position) {
     position.y -= 200;
     textbox_sprite.setPosition(position);
 
+}
+void Game::initTextBoxCompleteTask() {
+    isCompleteTaskBoxVisible = false;
+    if(!this->complete_task_texture.loadFromFile("/home/crocus/game_project/game_sprites/another_stuff/completed_task.png")) {
+        std::cout << "ERROR! COULDN'T LOAD A COMPLETE TASK TEXTURE" << std::endl;
+    }
+    else {
+        this->complete_task_sprite.setTexture(complete_task_texture);
+        this->complete_task_sprite.setScale(0.5f, 0.5f);
+    
+    }
+}
+void Game::renderTextBoxCompleteTask() {
+    window->draw(complete_task_sprite);
+}
+void Game::moveTextBoxCompleteTask(sf::Vector2f position) {
+    position.x -= 200;
+    position.y -= 200;
+    complete_task_sprite.setPosition(position);
+
+}
+
+void Game::updateTextBox() {
+    if(counter_hero == 10) {
+        this->textbox_texture.loadFromFile("/home/crocus/game_project/game_sprites/another_stuff/robot_border_gohome.png");
+        this->textbox_sprite.setTexture(textbox_texture);
+        isCompleteTaskBoxVisible = true;
+    }
 }
