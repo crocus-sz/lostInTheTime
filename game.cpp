@@ -17,6 +17,7 @@ Game::Game() {
     this->initTextBoxStoryline();
     this->initText();
     this->initWizard();
+    this->initDialogBox();
 }
 
 Game::~Game() {
@@ -40,6 +41,9 @@ void Game::render() {
     this->renderText();
     if(this->isStorylineBoxVisible) {
         this->renderTextBoxStoryline();
+    }
+    if(this->isDialogBoxVisible) {
+        this->renderDialogBox();
     }
     if(!artefact->isDestroyedFunc()) {
         this->renderOneArtefact(*artefact);
@@ -124,6 +128,7 @@ void Game::update() {
       this->closeTask();
       this->updateWizardAnim();
       this->updateTextBoxStoryline();
+      this->updateDialogBox();
 }
 
 void Game::updateHero() {
@@ -290,17 +295,65 @@ void Game::updateTextBoxStoryline() {
     
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R)) {
         isStorylineBoxVisible = false;
-        
-    
     }
 }
 void Game::renderTextBoxStoryline() {
     window->draw(storylinebox_sprite);
 }
-void Game::showTextBoxStoryline() {
+
+void Game::initDialogBox() {
+    isDialogBoxVisible = false;
+    counterOfDialogBox = 1;
+    if(!this->dialogbox_texture.loadFromFile("/home/crocus/game_project/game_sprites/another_stuff/dialog_box_choosen_one.png")) {
+        std::cout << "ERROR! COULDN'T LOAD A COMPLETE TASK TEXTURE" << std::endl;
+    }
+    else {
+        this->dialogbox_sprite.setTexture(dialogbox_texture);
+        this->dialogbox_sprite.setPosition(wizard1_sprite.getPosition().x+50,wizard1_sprite.getPosition().y+100);
+        this->dialogbox_sprite.setScale(0.5f, 0.5f);
+    
+    }
+}
+void Game::renderDialogBox() {
+    window->draw(dialogbox_sprite);
+}
+void Game::updateDialogBox() {
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::F)) {
+        counterOfDialogBox += 1;
+    }
+    if(wizard1_sprite.getPosition().x - main_hero->getHeroPositionX() < 100 && counterOfDialogBox == 1) {
+        isDialogBoxVisible = true;
+    }
+    else if(counterOfDialogBox <= 20) {
+        isDialogBoxVisible = false;
+    }
+    else if(wizard1_sprite.getPosition().x - main_hero->getHeroPositionX() < 100 && counterOfDialogBox >= 21 && counterOfDialogBox <= 31) {
+        isDialogBoxVisible = true;
+        this->dialogbox_texture.loadFromFile("/home/crocus/game_project/game_sprites/another_stuff/dialog_box_but_why.png");
+        this->dialogbox_sprite.setTexture(dialogbox_texture);
+        this->dialogbox_sprite.setPosition(main_hero->getHeroPositionX()-170,main_hero->getHeroPositionY()-60);
+    }
+    else if(counterOfDialogBox >= 33 && counterOfDialogBox <= 41 &&  wizard1_sprite.getPosition().x - main_hero->getHeroPositionX() < 100) {
+        isDialogBoxVisible = false;
+    }
+    else if(counterOfDialogBox >= 41 && counterOfDialogBox <= 61 && wizard1_sprite.getPosition().x - main_hero->getHeroPositionX() < 100) {
+        isDialogBoxVisible = true;
+        this->dialogbox_texture.loadFromFile("/home/crocus/game_project/game_sprites/another_stuff/dialog_box_lets_see.png");
+        this->dialogbox_sprite.setTexture(dialogbox_texture);
+        this->dialogbox_sprite.setPosition(wizard1_sprite.getPosition().x+50,wizard1_sprite.getPosition().y+100);
+    }
+    else if(counterOfDialogBox >= 52 &&  wizard1_sprite.getPosition().x - main_hero->getHeroPositionX() < 100) {
+        isDialogBoxVisible = false;
+        animNumber = 2;
+    }
+
 }
 
+
+
+// wizard's function
 void Game::initWizard() {
+    animNumber = 1;
     this->wizardAnimTimer.restart();
     if(!this->wizard1_texture.loadFromFile("/home/crocus/game_project/game_sprites/main_enemies/EVil Wizard 2/Sprites/Idle.png")) {
         std::cout << "ERROR! COULDN'T LOAD AN EVIL WIZARD SPRITE" << std::endl;
@@ -310,7 +363,7 @@ void Game::initWizard() {
         this->wizard1_sprite.setTexture(wizard1_texture);
         this->wizard1_sprite.setScale(3.0f, 3.0f);
         this->wizard1_sprite.setTextureRect(this->WizardFrame);
-        this->wizard1_sprite.setPosition(7250.f, 80.f);
+        this->wizard1_sprite.setPosition(7350.f, 80.f);
     }
 
 }
@@ -318,13 +371,37 @@ void Game::renderWizard() {
     window->draw(wizard1_sprite);
 }
 void Game::updateWizardAnim(){
-    if(this->wizardAnimTimer.getElapsedTime().asSeconds() >= 0.1f) {
-        this->WizardFrame.top = 0.f;
-        this->WizardFrame.left += 250.f;
-        if(this->WizardFrame.left >= 1750.f){
-            this->WizardFrame.left = 250.f;
+    if(animNumber == 1) {
+        if(this->wizardAnimTimer.getElapsedTime().asSeconds() >= 0.1f) {
+            this->WizardFrame.top = 0.f;
+            this->WizardFrame.left += 250.f;
+            if(this->WizardFrame.left >= 1750.f){
+                this->WizardFrame.left = 250.f;
+            }
+            this->wizardAnimTimer.restart();
+            this->wizard1_sprite.setTextureRect(this->WizardFrame);
         }
-        this->wizardAnimTimer.restart();
-        this->wizard1_sprite.setTextureRect(this->WizardFrame);
+    }
+    if(animNumber == 2) {
+        if(changeSpriteForAnim == true) {
+            this->wizard1_texture.loadFromFile("/home/crocus/game_project/game_sprites/main_enemies/EVil Wizard 2/Sprites/Attack1.png");
+            this->WizardFrame = sf::IntRect(0, 0, 250, 250);
+            this->wizard1_sprite.setTexture(wizard1_texture);
+            this->wizard1_sprite.setScale(3.0f, 3.0f);
+            this->wizard1_sprite.setTextureRect(this->WizardFrame);
+            this->wizard1_sprite.setPosition(7350.f, 80.f);
+            changeSpriteForAnim = false;
+        }
+        if(this->wizardAnimTimer.getElapsedTime().asSeconds() >= 0.15f) {
+            this->WizardFrame.top = 0.f;
+            this->WizardFrame.left += 250.f;
+            main_hero->animdeath();
+            if(this->WizardFrame.left >= 1750.f){
+                this->WizardFrame.left = 1750.f;
+            }
+            this->wizardAnimTimer.restart();
+            this->wizard1_sprite.setTextureRect(this->WizardFrame);
+            
+        }
     }
 }

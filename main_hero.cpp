@@ -102,6 +102,7 @@ void Hero::updatePhysics() {
 }
 
 
+
 void Hero::updateAnimations() {
 
     //DANGEOURS !!!!!!!!!!!!!!!!!!!
@@ -155,6 +156,33 @@ void Hero::updateAnimations() {
             this->main_hero_sprite.setPosition(this->getHeroPositionX(), 380.f);
     }
 }
+
+void Hero::animdeath(){
+        if(changeSpriteForAnim == true) {
+            this->main_hero_texture.loadFromFile("/home/crocus/game_project/game_sprites/main_hero/Player_Advanced/PlayerDeath.png");
+            //this->main_hero_sprite.setPosition(20.f, 340.f);
+            this->currentFrame = sf::IntRect(0, 0, 64,64);
+            this->main_hero_sprite.setTexture(this->main_hero_texture);
+            this->main_hero_sprite.setTextureRect(this->currentFrame);
+            this->main_hero_sprite.setScale(4.5f, 4.5f);
+            changeSpriteForAnim = false;
+        }
+        if(this->heroAnimationTimer.getElapsedTime().asSeconds() >= 0.1f) {
+            this->currentFrame.top = 0.f;
+            this->currentFrame.left+= 64.f; 
+            if(this->currentFrame.left >= 704.f) {
+                this->currentFrame.left = 704.f;
+            }
+
+            this->heroAnimationTimer.restart();
+            this->main_hero_sprite.setTextureRect(this->currentFrame);
+
+        }
+            
+        
+    }
+
+ 
 
 void Hero::updateHeroPosition() {
     hero_position = main_hero_sprite.getPosition();

@@ -7,6 +7,7 @@ enum HERO_ANIMATION {
     IDLE = 0,
     MOVING_LEFT,
     MOVING_RIGHT,
+    DEATH,
     JUMPING,
     SITTING
 };
@@ -20,6 +21,7 @@ class Hero {
         sf::Clock heroAnimationTimer;
         short animations_number;
         sf::Vector2f hero_position;
+        bool changeSpriteForAnim = true;
 
     public:
         Hero();
@@ -39,6 +41,7 @@ class Hero {
         //animations
         void initAnimations();
         void updateAnimations();
+        void animdeath();
 
         //physics
         float acceleration;

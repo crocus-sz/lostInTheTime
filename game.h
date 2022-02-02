@@ -23,14 +23,18 @@ class Game {
         bool isTaskBoxVisible;
         bool isCompleteTaskBoxVisible;
         bool isStorylineBoxVisible;
+        bool isDialogBoxVisible;
         sf::IntRect WizardFrame;
         sf::Clock wizardAnimTimer;
+        int counterOfDialogBox;
+        short animNumber;
+        bool changeSpriteForAnim = true;
 
 
 
         //Background
-        sf::Texture background_texture1, textbox_texture, complete_task_texture, wizard1_texture, storylinebox_texture;
-        sf::Sprite background_sprite1, textbox_sprite, complete_task_sprite, wizard1_sprite, storylinebox_sprite;
+        sf::Texture background_texture1, textbox_texture, complete_task_texture, wizard1_texture, storylinebox_texture, dialogbox_texture;
+        sf::Sprite background_sprite1, textbox_sprite, complete_task_sprite, wizard1_sprite, storylinebox_sprite, dialogbox_sprite;
         void initBackground();
         void initTextBox();
         void renderTextBox();
@@ -46,6 +50,10 @@ class Game {
         void showTextBoxStoryline();
         void renderTextBoxCompleteTask();
         void moveTextBoxCompleteTask(sf::Vector2f position);
+
+        void initDialogBox();
+        void renderDialogBox();
+        void updateDialogBox();
         
         void renderBackground();
         void repeatBackground();
